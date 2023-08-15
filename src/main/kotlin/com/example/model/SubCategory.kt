@@ -10,6 +10,7 @@ data class SubCategory(
     val name : String,
     val imageUrl : String,
     val objectName : String,
+    val categoryId : Int
 )
 
 object SubCategories  : Table() {
@@ -17,4 +18,5 @@ object SubCategories  : Table() {
     val name = varchar("name", 1024)
     val imageUrl = varchar("imageUrl",2048)
     val objectName = varchar("objectName", 256)
+    val categoryId = reference("category_id", Categories.id)
 }
