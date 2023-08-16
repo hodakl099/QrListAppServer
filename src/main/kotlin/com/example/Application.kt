@@ -19,6 +19,7 @@ fun main(args: Array<String>) {
 
 @OptIn(DelicateCoroutinesApi::class)
 fun Application.module() {
+
     DatabaseFactory.init()
 
     install(ContentNegotiation) {
@@ -40,8 +41,12 @@ fun Application.module() {
         allowCredentials = true
         allowNonSimpleContentTypes = true
     }
+
     configureSockets()
+
     configureSerialization()
+
     configureMonitoring()
+
     configureRouting()
 }
