@@ -17,4 +17,6 @@ object Categories : Table() {
     val name = varchar("name",1024)
     val imageUrl = varchar("imageUrl",2048)
     val objectName = varchar("objectName",256)
+
+    override val primaryKey = PrimaryKey(id, name = "PK_Categories_ID") // This sets the primary key
 }

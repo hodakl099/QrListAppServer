@@ -14,10 +14,14 @@ object DatabaseFactory  {
         val database =  Database.connect(
             url = "jdbc:postgresql://localhost:5432/postgres",
             driver = "org.postgresql.Driver",
-            user = "postgres",
+            user = "mahmoud",
             password = "mahmoud99"
         )
         transaction(database) {
+            SchemaUtils.drop(
+                Categories,
+                SubCategories
+            )
             SchemaUtils.create(
                 Categories,
                 SubCategories
