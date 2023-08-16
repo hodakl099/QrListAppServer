@@ -2,6 +2,8 @@ package com.example.plugins.routes.subcategory.put
 
 import com.example.dao.dao
 import com.example.model.Category
+import com.example.model.SubCategory
+import com.example.plugins.routes.category.put.uploadFile
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.storage.BlobId
 import com.google.cloud.storage.BlobInfo
@@ -17,7 +19,78 @@ import kotlinx.coroutines.withContext
 import java.io.FileInputStream
 
 fun Route.updateSubCategoryRoute() {
+    put("/updateSubCategory/{id}") {
+        val id = call.parameters["id"]?.toIntOrNull()
+        if (id == null) {
+            call.respond(HttpStatusCode.BadRequest, "Invalid or missing ID.")
+            return@put
+        }
 
+        val multiPart = call.receiveMultipart()
 
+        var name: String? = null
+        var imageUrl: String? = null
+        var objectName: String? = null
+        var categoryId: Int? = null
+        var imageUpdated = false
+
+        multiPart.forEachPart { part ->
+            when (part) {
+                is PartData.FormItem -> {
+                    when (part.name) {
+                        "name" -> name = part.value
+                        "objectName" -> objectName = part.value
+                        "categoryId" -> categoryId = part.value.toIntOrNull()
+                    }
+                }
+
+                is PartData.FileItem -> {
+                    if (part.name == "image") {
+                        val fileUrl = uploadFile(part)
+                        imageUrl = fileUrl
+                        objectName = part.originalFileName
+                        imageUpdated = true
+                    }
+                }
+
+                else -> return@forEachPart
+            }
+            part.dispose()
+        }
+
+        // If no new image was uploaded, fetch old imageUrl and objectName from the database
+        if (!imageUpdated) {
+            val currentSubCategory = dao.getSubCategory(id)
+            imageUrl = currentSubCategory?.imageUrl
+            objectName = currentSubCategory?.objectName
+        }
+
+        // If category is not updated, fetch old categoryId from the database
+        if (categoryId == null) {
+            val currentSubCategory = dao.getSubCategory(id)
+            categoryId = currentSubCategory?.categoryId
+        }
+
+        // Construct the updated sub-category object.
+        val updatedSubCategory = SubCategory(
+            id = id,
+            name = name ?: "",
+            imageUrl = imageUrl ?: "",
+            objectName = objectName ?: "",
+            categoryId = categoryId ?: throw IllegalArgumentException("Category ID is missing or invalid.")
+        )
+
+        // Update the sub-category in the database.
+        val result = dao.updateSubCategory(id, updatedSubCategory)
+
+        if (result) {
+            call.respond(HttpStatusCode.OK, "SubCategory updated successfully.")
+        } else {
+            call.respond(HttpStatusCode.NotFound, "SubCategory with ID: $id not found.")
+        }
+    }
 }
+
+
+
 

@@ -12,6 +12,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class CategoryDaoImpl : CategoryDao {
 
 
+
     private fun toCategory(row: ResultRow): Category =
         Category(
             id = row[Categories.id],
@@ -92,5 +93,11 @@ class CategoryDaoImpl : CategoryDao {
     override suspend fun getSubCategoriesForCategory(categoryId: Int): List<SubCategory> = dbQuery {
         SubCategories.select { SubCategories.categoryId eq categoryId }
             .map { toSubCategory(it) }
+    }
+
+    override suspend fun getSubCategory(id: Int): SubCategory? = dbQuery {
+        SubCategories.select { SubCategories.id eq id }
+            .mapNotNull { toSubCategory(it) }
+            .singleOrNull()
     }
 }

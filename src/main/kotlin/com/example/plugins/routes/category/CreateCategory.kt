@@ -8,7 +8,6 @@ import com.example.plugins.routes.category.put.updateCategoryRoute
 import io.ktor.server.routing.*
 
 fun Route.createCategoryRoute() {
-
     route("/category") {
         postCategoryRoute()
         getCategoryRoute()
@@ -16,5 +15,4 @@ fun Route.createCategoryRoute() {
         deleteCategoryRoute()
         updateCategoryRoute()
     }
-
 }

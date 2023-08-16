@@ -8,7 +8,17 @@ import io.ktor.server.routing.*
 
 fun Route.deleteSubCategoryRoute() {
 
-   delete("deleteCategory/{id}") {
-
-        }
+   delete("deleteSubCategory/{id}") {
+       val id = call.parameters["id"]?.toIntOrNull()
+       if (id != null) {
+           val isDeleted = dao.deleteSubCategory(id)
+           if (isDeleted) {
+               call.respond(HttpStatusCode.OK,"Subcategory is deleted successfully!")
+           } else {
+               call.respond(HttpStatusCode.BadRequest,"missing or invalid sub category!")
+           }
+       } else {
+           call.respond(HttpStatusCode.NotFound, "Missing sub category id!")
+       }
+   }
 }
