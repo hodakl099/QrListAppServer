@@ -26,8 +26,6 @@ fun Application.module() {
         allowCredentials = true
         allowNonSimpleContentTypes = true
     }
-
-
     configureSockets()
     configureSerialization()
     configureMonitoring()

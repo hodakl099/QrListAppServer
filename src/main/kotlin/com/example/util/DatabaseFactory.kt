@@ -18,10 +18,6 @@ object DatabaseFactory  {
             password = "mahmoud99"
         )
         transaction(database) {
-            SchemaUtils.drop(
-                Categories,
-                SubCategories
-            )
             SchemaUtils.create(
                 Categories,
                 SubCategories

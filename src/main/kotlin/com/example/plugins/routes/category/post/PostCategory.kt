@@ -37,26 +37,29 @@ fun Route.postCategory() {
                 is PartData.FileItem -> {
                     if (part.name == "image") {
                         val fileBytes = part.streamProvider().readBytes()
-
+                        if (fileBytes.isEmpty()) {
+                            call.respond(HttpStatusCode.BadRequest, "Image is required.")
+                            return@forEachPart
+                        }
                         try {
                             val creds = withContext(Dispatchers.IO) {
                                 GoogleCredentials.fromStream(FileInputStream("src/main/resources/verdant-option-390012-c9c70b72ef8f.json"))
                             }
                             val storage = StorageOptions.newBuilder().setCredentials(creds).build().service
+                            val bucketName = "qrlist"
 
-                            val bucketName = "qrlist"  // <-- This should be your new bucket name
-
-                            val blobName = objectName ?: part.originalFileName ?: "unknown" // Prefer the objectName, then originalFileName, then fallback to "unknown"
+                            val blobName = objectName ?: part.originalFileName ?: "unknown"
                             val blobId = BlobId.of(bucketName, blobName)
                             val blobInfo = BlobInfo.newBuilder(blobId).setContentType(part.contentType?.toString() ?: "image/jpeg").build()
-
                             storage.create(blobInfo, fileBytes)
 
-                            // Assuming you want the public link to the image, it will look like:
                             imageUrl = "https://storage.googleapis.com/$bucketName/$blobName"
 
                         } catch (e: Exception) {
-                            call.respond(HttpStatusCode.InternalServerError)
+                            call.respond(HttpStatusCode.InternalServerError, "Something went wrong while uploading the file.")
+                            return@forEachPart
+                        } catch (e: IllegalArgumentException) {
+                            call.respond(HttpStatusCode.BadRequest, e.message ?: "Invalid input.")
                             return@forEachPart
                         }
                     }
@@ -66,10 +69,15 @@ fun Route.postCategory() {
             part.dispose()
         }
 
+        if (imageUrl.isNullOrEmpty()) {
+            call.respond(HttpStatusCode.BadRequest, "Image URL is missing.")
+            return@post
+        }
+
         val category = Category(
             id = 0,
             name = name ?: throw IllegalArgumentException("Name is missing."),
-            imageUrl = imageUrl ?: "",
+            imageUrl = imageUrl ?: throw IllegalArgumentException("Image Url Is missing"),
             objectName = objectName ?: "",
             subCategories = emptyList()
         )
@@ -78,5 +86,6 @@ fun Route.postCategory() {
         call.respond(HttpStatusCode.Created, "Category added successfully.")
     }
 }
+
 
 
