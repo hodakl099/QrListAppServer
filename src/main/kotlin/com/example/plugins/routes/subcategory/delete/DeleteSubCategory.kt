@@ -10,7 +10,5 @@ fun Route.deleteSubCategoryRoute() {
 
    delete("deleteCategory/{id}") {
 
-
-
         }
 }

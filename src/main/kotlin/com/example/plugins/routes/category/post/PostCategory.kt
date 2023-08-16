@@ -41,7 +41,6 @@ fun Route.postCategoryRoute() {
                             return@forEachPart
                         }
                         try {
-                            // Utilize the uploadFile function to upload to GCS and get the image URL.
                             imageUrl = uploadFile(part)
                         } catch (e: Exception) {
                             call.respond(HttpStatusCode.InternalServerError, "Something went wrong while uploading the file.")

@@ -2,6 +2,7 @@ package com.example.plugins.routes.subcategory.post
 
 import com.example.dao.dao
 import com.example.model.Category
+import com.example.model.SubCategory
 import com.example.plugins.routes.category.put.uploadFile
 import io.ktor.http.*
 import io.ktor.http.content.*
@@ -12,7 +13,62 @@ import io.ktor.server.routing.*
 
 
 fun Route.postSubCategoryRoute() {
-}
+    post("/AddSubCategory") {
+        val multipart = call.receiveMultipart()
+        var name: String? = null
+        var imageUrl: String? = null
+        var objectName: String? = null
+        var categoryId: Int? = null
 
+        multipart.forEachPart { part ->
+            when (part) {
+                is PartData.FormItem -> {
+                    when (part.name) {
+                        "name" -> name = part.value
+                        "objectName" -> objectName = part.value
+                        "categoryId" -> categoryId = part.value.toIntOrNull()
+                    }
+                }
+                is PartData.FileItem -> {
+                    if (part.name == "image") {
+                        val fileBytes = part.streamProvider().readBytes()
+                        if (fileBytes.isEmpty()) {
+                            call.respond(HttpStatusCode.BadRequest, "Image is required.")
+                            return@forEachPart
+                        }
+                        try {
+                            imageUrl = uploadFile(part)
+                        } catch (e: Exception) {
+                            call.respond(HttpStatusCode.InternalServerError, "Something went wrong while uploading the file.")
+                            return@forEachPart
+                        }
+                    }
+                }
+                else -> part.dispose()
+            }
+            part.dispose()
+        }
+
+        if (imageUrl.isNullOrEmpty()) {
+            call.respond(HttpStatusCode.BadRequest, "Image URL is missing.")
+            return@post
+        }
+        if (categoryId == null) {
+            call.respond(HttpStatusCode.BadRequest, "Category ID is missing or invalid.")
+            return@post
+        }
+
+        val subCategory = SubCategory(
+            id = 0,
+            name = name ?: throw IllegalArgumentException("Name is missing."),
+            imageUrl = imageUrl ?: "",
+            objectName = objectName ?: "",
+            categoryId = categoryId ?: 0
+        )
+
+        dao.addSubCategoryToCategory(categoryId!!, subCategory)
+        call.respond(HttpStatusCode.Created, "SubCategory added successfully.")
+    }
+}
 
 
