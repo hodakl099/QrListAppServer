@@ -45,7 +45,12 @@ class CategoryDaoImpl : CategoryDao {
     }
 
     override suspend fun getAllCategories(): List<Category> = dbQuery {
-        Categories.selectAll().map { toCategory(it) }
+        Categories.selectAll().map { categoryRow ->
+            val category = toCategory(categoryRow)
+            val subCategoriesForThisCategory = SubCategories.select { SubCategories.categoryId eq category.id }
+                .map { toSubCategory(it) }
+            category.copy(subCategories = subCategoriesForThisCategory)
+        }
     }
 
     override suspend fun getCategory(id: Int): Category?  = dbQuery {

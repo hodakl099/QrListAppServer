@@ -43,5 +43,7 @@ dependencies {
 
     implementation("org.postgresql:postgresql:42.5.4")
 
+    implementation("com.google.cloud:google-cloud-storage:1.113.14")
+
 
 }

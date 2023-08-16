@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "verdant-option-390012",
+  "private_key_id": "c9c70b72ef8fec754bcaeb26e788ea406aa09e9d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCd3Xq9mqc1/yPo\nv+IJPJ4qUuS+9FpP7/QGWLz9DN3wp+C/zAwPt+EobNIgobtZgyemRUevElitPJD6\n7Gb1vXsxtfT18ytZo6Gt4RuzbAIN3a1AhEii7lEGKKubDZrj5f9P9StphU0O7vie\nPDwedcIBoJxlzHW+gDnJM+OAo82IlNCeB6p1ClzkiEs4MK27ZKm+ZRLQIW5T7VvZ\nwPtMtPvupoNrGcfJ/8jc795zGtcs2DbHoxpyKMIlGBd08r/y7KIxC0OV5kk7CNR8\nK3XpfU/hFajuokBHrzYw9R4xaakPlg8IAw76ol1+Vdagp86seO/BvFQnf22Nul6E\n0a+kmotdAgMBAAECggEADYz437SaPMrRUMXDx8oxw21JIFEGPY1Z03+jfU8w79rh\nMmV39ZNxmtA4ez+WvtjAuweAXzlCbmBgC4HmVpq0q/Az/jao1nFyy+OiRpTzWjBY\nkkyolX/CabZtAIq67GwOLdVcLBsaobkGk0KVYIH4LL6WHjDePINyMmCnWx/0YRBO\nf9oXEonthuUG+uy66seVoAvtkEb2R6X8T8aLRkIXKsS3Hxk981rFcmu1mi8j730Y\nr8oMTYDEe/VyEjvc6oH9WjeARWkbCayxaVDJqPECUG3dlHO7hu6JmW6ikhoEVWom\nLelBCzqqziWQb/Irg19NEdC4xWJg0wVOM16Oq+62WwKBgQDWpIKdBZ78Q+9DOjEc\nA+a/qtMiFcNhjR4hcK+yfcN/nKp9TZAL2TiXu/1uG92c8NnwY72ic1F6p47wPxfg\nq/OL9406Y2IgqeaLLk+AqPZpyMj/WnHkj4H4Ko4oY6YLCScnrN++oWJUDCHi+8JZ\nUjIJEk8BTqmXcjTov+DABjq6DwKBgQC8SFtNnfkhBDuoCu99WhapxNz5+raU0KB+\nhcn+zNVXyNTevMvUtvlZh72JK3NI0ED696t9ETMomoETBRMLOF6YwJBgNfr60c/N\nBiGKGGHMhdOooarjEp58NjgtxEWcdU/dF2dZVkhXIpghuDWNfgIqU4Mj7KWW4UoE\nii4HAn6/0wKBgB12j4dGUkCGgr1Tq5IQ5wfARyMSobMuT8h/U17I7KEDvFNe5jr6\nIk6Ru4P1x0HXvdLFni5CbhjMD07jGj/42oGIBZbSNZIOQFsyjC85AjobGZwTqjaZ\njFmoXcMlipFRPFKx5DSiqoCm+a/SpybjpYKhRL8FMTpcru6UCCHTuRP5AoGAGhDm\nWwOAxvpgC+6fozoCozQ254C3IDkVzw5Unarb6lBKcB+xFFzUfnmVWtUiG7WBGX2K\nR0FHVNq2/dwY+9es+PbHxhoTCgBcBWVQ5V5kw7zPRaxEDTW5rTaQZn2iqXtwOAqS\na0LPtwh6CUkIWPNV92giYqnTbuT3q1M59gx5YbMCgYEAwYNgi+ctCWhiwi5wpSgV\nJTE0kRn5PAsNVdiZT3n6qF24UjKE2W/T0KPl4asU4kdes/1yk7uqR5QSwTHHO95l\nca2Jd6pRy4mfnVBuDhy40+rnnLP3GxQDW15r+D26iZpqRoCw0rlLPEb3GUg0w3fD\n/mDE6hmUm47mudG47n0ZMCU=\n-----END PRIVATE KEY-----\n",
+  "client_email": "tajmedia@verdant-option-390012.iam.gserviceaccount.com",
+  "client_id": "102492886193323419825",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tajmedia%40verdant-option-390012.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
