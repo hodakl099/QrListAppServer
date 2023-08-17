@@ -3,6 +3,8 @@ package com.example.plugins.routes.category.put
 import com.example.dao.dao
 import com.example.model.Category
 import com.google.auth.oauth2.GoogleCredentials
+import com.google.cloud.secretmanager.v1.SecretManagerServiceClient
+import com.google.cloud.secretmanager.v1.SecretVersionName
 import com.google.cloud.storage.BlobId
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.StorageOptions
@@ -14,6 +16,7 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.ByteArrayInputStream
 import java.io.FileInputStream
 
 fun Route.updateCategoryRoute() {
@@ -79,6 +82,7 @@ fun Route.updateCategoryRoute() {
         }
     }
 }
+
 
 suspend fun uploadFile(part: PartData.FileItem): String? {
     val fileBytes = part.streamProvider().readBytes()

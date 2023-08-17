@@ -43,6 +43,7 @@ fun Route.postCategoryRoute() {
                         try {
                             imageUrl = uploadFile(part)
                         } catch (e: Exception) {
+                            print("Logeffesfksmd dsfijsdf " + e.message)
                             call.respond(HttpStatusCode.InternalServerError, "Something went wrong while uploading the file.")
                             return@forEachPart
                         }
