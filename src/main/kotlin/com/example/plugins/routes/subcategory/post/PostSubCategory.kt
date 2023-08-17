@@ -13,12 +13,18 @@ import io.ktor.server.routing.*
 
 
 fun Route.postSubCategoryRoute() {
-    post("/AddSubCategory") {
+    post("/AddSubCategory/{id}") {
+
+        val categoryId = call.parameters["id"]?.toIntOrNull()
         val multipart = call.receiveMultipart()
         var name: String? = null
         var imageUrl: String? = null
         var objectName: String? = null
-        var categoryId: Int? = null
+
+        if (categoryId == null) {
+            call.respond(HttpStatusCode.BadRequest,"Category might be deleted or invalid!")
+        }
+
 
         multipart.forEachPart { part ->
             when (part) {
@@ -26,7 +32,6 @@ fun Route.postSubCategoryRoute() {
                     when (part.name) {
                         "name" -> name = part.value
                         "objectName" -> objectName = part.value
-                        "categoryId" -> categoryId = part.value.toIntOrNull()
                     }
                 }
                 is PartData.FileItem -> {
@@ -49,12 +54,14 @@ fun Route.postSubCategoryRoute() {
             part.dispose()
         }
 
-        if (imageUrl.isNullOrEmpty()) {
-            call.respond(HttpStatusCode.BadRequest, "Image URL is missing.")
+        val parentCategory = dao.getCategory(categoryId!!)
+        if (parentCategory == null) {
+            call.respond(HttpStatusCode.BadRequest,"Category might be deleted or its not valid!")
             return@post
         }
-        if (categoryId == null) {
-            call.respond(HttpStatusCode.BadRequest, "Category ID is missing or invalid.")
+
+        if (imageUrl.isNullOrEmpty()) {
+            call.respond(HttpStatusCode.BadRequest, "Image URL is missing.")
             return@post
         }
 
