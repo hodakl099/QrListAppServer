@@ -38,7 +38,7 @@ fun Route.postCategoryRoute() {
                     if (part.name == "image") {
                         val fileBytes = part.streamProvider().readBytes()
                         if (fileBytes.isEmpty()) {
-                            call.respond(HttpStatusCode.BadRequest, "Image is required.")
+                            call.respond(HttpStatusCode.BadRequest, BasicApiResponse(false,"Image is required."))
                             return@forEachPart
                         }
                         try {
@@ -56,7 +56,7 @@ fun Route.postCategoryRoute() {
         }
 
         if (imageUrl.isNullOrEmpty()) {
-            call.respond(HttpStatusCode.BadRequest, "Image URL is missing.")
+            call.respond(HttpStatusCode.BadRequest, BasicApiResponse(true,"Image URL is missing."))
             return@post
         }
 
@@ -69,7 +69,7 @@ fun Route.postCategoryRoute() {
         )
 
         dao.addCategory(category)
-        call.respond(HttpStatusCode.Created, "Category added successfully.")
+        call.respond(HttpStatusCode.Created, BasicApiResponse(true,"Category added successfully."))
     }
 }
 

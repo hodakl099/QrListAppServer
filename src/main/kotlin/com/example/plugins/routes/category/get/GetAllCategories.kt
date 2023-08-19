@@ -1,6 +1,7 @@
 package com.example.plugins.routes.category.get
 
 import com.example.dao.dao
+import com.example.util.BasicApiResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
@@ -14,7 +15,7 @@ fun Route.getAllCategoriesRoute() {
             call.respond(HttpStatusCode.OK,categories)
         }
         else {
-            call.respond(HttpStatusCode.BadRequest,"There is no categories available")
+            call.respond(HttpStatusCode.BadRequest, BasicApiResponse(false,"There is no categories available"))
         }
     }
 }
