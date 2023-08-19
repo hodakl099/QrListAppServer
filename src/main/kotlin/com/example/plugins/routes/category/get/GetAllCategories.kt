@@ -12,6 +12,7 @@ fun Route.getAllCategoriesRoute() {
     get("getAllCategories") {
         val categories = dao.getAllCategories()
         if (categories.isNotEmpty()) {
+            print(categories)
             call.respond(HttpStatusCode.OK,categories)
         }
         else {

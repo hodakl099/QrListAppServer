@@ -14,8 +14,8 @@ object DatabaseFactory  {
         val database =  Database.connect(
             url = "jdbc:postgresql://localhost:5432/postgres",
             driver = "org.postgresql.Driver",
-            user = "mahmoud",
-            password = "mahmoud99"
+            user = "postgres",
+            password = "Thanaatekba2000$$"
         )
         transaction(database) {
             SchemaUtils.create(
