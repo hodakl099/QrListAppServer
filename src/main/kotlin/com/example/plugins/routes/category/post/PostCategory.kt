@@ -3,6 +3,7 @@ package com.example.plugins.routes.category.post
 import com.example.dao.dao
 import com.example.model.Category
 import com.example.plugins.routes.category.put.uploadFile
+import com.example.util.BasicApiResponse
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.storage.BlobId
 import com.google.cloud.storage.BlobInfo
@@ -44,7 +45,7 @@ fun Route.postCategoryRoute() {
                             imageUrl = uploadFile(part)
                         } catch (e: Exception) {
                             print("Logeffesfksmd dsfijsdf " + e.message)
-                            call.respond(HttpStatusCode.InternalServerError, "Something went wrong while uploading the file.")
+                            call.respond(HttpStatusCode.InternalServerError, BasicApiResponse(true,"Category is Added Successfully"))
                             return@forEachPart
                         }
                     }

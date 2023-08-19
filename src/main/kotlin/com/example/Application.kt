@@ -17,7 +17,7 @@ fun main(args: Array<String>) {
     io.ktor.server.netty.EngineMain.main(args)
 }
 
-@OptIn(DelicateCoroutinesApi::class)
+
 fun Application.module() {
 
     DatabaseFactory.init()
