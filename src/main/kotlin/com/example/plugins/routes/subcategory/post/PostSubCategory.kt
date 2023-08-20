@@ -22,6 +22,8 @@ fun Route.postSubCategoryRoute() {
         var imageUrl: String? = null
         var objectName: String? = null
 
+        print("The id of the category" + categoryId)
+
         if (categoryId == null) {
             call.respond(HttpStatusCode.BadRequest, BasicApiResponse(false,"Category might be deleted or invalid!"))
         }
