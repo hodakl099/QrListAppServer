@@ -13,9 +13,9 @@ import io.ktor.server.routing.*
 
 
 fun Route.postSubCategoryRoute() {
-    post("/AddSubCategory/{id}") {
+    post("/AddSubCategory/{categoryId}") {
 
-        val categoryId = call.parameters["id"]?.toIntOrNull()
+        val categoryId = call.parameters["categoryId"]?.toIntOrNull()
         val multipart = call.receiveMultipart()
         var name: String? = null
         var imageUrl: String? = null
