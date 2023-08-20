@@ -4,6 +4,7 @@ import com.example.dao.dao
 import com.example.model.Category
 import com.example.model.SubCategory
 import com.example.plugins.routes.category.put.uploadFile
+import com.example.util.BasicApiResponse
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.server.application.*
@@ -22,7 +23,7 @@ fun Route.postSubCategoryRoute() {
         var objectName: String? = null
 
         if (categoryId == null) {
-            call.respond(HttpStatusCode.BadRequest,"Category might be deleted or invalid!")
+            call.respond(HttpStatusCode.BadRequest, BasicApiResponse(false,"Category might be deleted or invalid!"))
         }
 
 
@@ -56,12 +57,12 @@ fun Route.postSubCategoryRoute() {
 
         val parentCategory = dao.getCategory(categoryId!!)
         if (parentCategory == null) {
-            call.respond(HttpStatusCode.BadRequest,"Category might be deleted or its not valid!")
+            call.respond(HttpStatusCode.BadRequest,BasicApiResponse(false,"Category might be deleted or its not valid!")  )
             return@post
         }
 
         if (imageUrl.isNullOrEmpty()) {
-            call.respond(HttpStatusCode.BadRequest, "Image URL is missing.")
+            call.respond(HttpStatusCode.BadRequest, BasicApiResponse(false,"Image URL is missing."))
             return@post
         }
 
@@ -73,8 +74,8 @@ fun Route.postSubCategoryRoute() {
             categoryId = categoryId ?: 0
         )
 
-        dao.addSubCategoryToCategory(categoryId!!, subCategory)
-        call.respond(HttpStatusCode.Created, "SubCategory added successfully.")
+        dao.addSubCategoryToCategory(categoryId, subCategory)
+        call.respond(HttpStatusCode.Created, BasicApiResponse(false,"SubCategory added successfully."))
     }
 }
 
