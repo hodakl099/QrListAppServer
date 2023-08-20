@@ -41,7 +41,7 @@ class CategoryDaoImpl : CategoryDao {
     }
 
     override suspend fun deleteCategory(id: Int): Boolean = dbQuery {
-        val deleted = Categories.deleteWhere { Categories.id eq Categories.id }
+        val deleted = Categories.deleteWhere { Categories.id eq id }
         deleted > 0
     }
 

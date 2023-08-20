@@ -69,7 +69,7 @@ fun Route.postCategoryRoute() {
         )
 
         dao.addCategory(category)
-        call.respond(HttpStatusCode.Created, BasicApiResponse(true,"Category added successfully."))
+        call.respond(HttpStatusCode.Created, BasicApiResponse(true,"Category."))
     }
 }
 

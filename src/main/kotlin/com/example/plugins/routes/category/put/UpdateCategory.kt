@@ -2,6 +2,7 @@ package com.example.plugins.routes.category.put
 
 import com.example.dao.dao
 import com.example.model.Category
+import com.example.util.BasicApiResponse
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.cloud.secretmanager.v1.SecretManagerServiceClient
 import com.google.cloud.secretmanager.v1.SecretVersionName
@@ -22,8 +23,9 @@ import java.io.FileInputStream
 fun Route.updateCategoryRoute() {
     put("/updateCategory/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
+        println(id)
         if (id == null) {
-            call.respond(HttpStatusCode.BadRequest, "Invalid or missing ID.")
+            call.respond(HttpStatusCode.BadRequest, BasicApiResponse(false,"Invalid or missing ID."))
             return@put
         }
 
@@ -76,9 +78,9 @@ fun Route.updateCategoryRoute() {
         val result = dao.updateCategory(id, updatedCategory)
 
         if (result) {
-            call.respond(HttpStatusCode.OK, "Category updated successfully.")
+            call.respond(HttpStatusCode.OK, BasicApiResponse(true,"Category updated successfully."))
         } else {
-            call.respond(HttpStatusCode.NotFound, "Category with ID: $id not found.")
+            call.respond(HttpStatusCode.NotFound, BasicApiResponse(false,"Category with ID: $id not found."))
         }
     }
 }
