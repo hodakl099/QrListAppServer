@@ -94,6 +94,11 @@ class CategoryDaoImpl : CategoryDao {
         SubCategories.select { SubCategories.categoryId eq categoryId }
             .map { toSubCategory(it) }
     }
+    override suspend fun deleteSubCategoriesForCategory(categoryId: Int) = dbQuery {
+     val deleted =    SubCategories.deleteWhere { SubCategories.categoryId eq categoryId }
+     deleted > 0
+    }
+
 
     override suspend fun getSubCategory(id: Int): SubCategory? = dbQuery {
         SubCategories.select { SubCategories.id eq id }

@@ -12,6 +12,7 @@ fun Route.deleteSubCategoryRoute() {
        val id = call.parameters["id"]?.toIntOrNull()
        if (id != null) {
            val isDeleted = dao.deleteSubCategory(id)
+
            if (isDeleted) {
                call.respond(HttpStatusCode.OK,"Subcategory is deleted successfully!")
            } else {

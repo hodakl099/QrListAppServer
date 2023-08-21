@@ -15,6 +15,7 @@ interface CategoryDao {
     suspend fun getCategory(id: Int) : Category?
 
     suspend fun updateCategory(id : Int, category: Category) : Boolean
+    suspend fun deleteSubCategoriesForCategory(categoryId: Int) : Boolean
 
 
 
