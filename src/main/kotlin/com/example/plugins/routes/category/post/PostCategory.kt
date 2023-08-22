@@ -32,7 +32,9 @@ fun Route.postCategoryRoute() {
                     when (part.name) {
                         "name" -> name = part.value
                         "objectName" -> objectName = part.value
+
                     }
+                    print(name)
                 }
                 is PartData.FileItem -> {
                     if (part.name == "image") {
