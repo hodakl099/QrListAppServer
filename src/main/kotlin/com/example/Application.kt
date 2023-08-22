@@ -25,10 +25,6 @@ fun Application.module() {
         json()
     }
 
-    GlobalScope.launch {
-        println(dao.getSubCategoriesForCategory(2))
-    }
-
     install(CORS) {
         anyHost()
         allowHeader(HttpHeaders.ContentType)
