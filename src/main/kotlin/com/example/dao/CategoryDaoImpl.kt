@@ -103,18 +103,18 @@ class CategoryDaoImpl : CategoryDao {
     }
 
 
-    private fun toResturant(row: ResultRow): Restaurant =
+    private fun toRestaurant(row: ResultRow): Restaurant =
         Restaurant(
             id = row[Restaurants.id],
             name = row[Restaurants.name],
             email = row[Restaurants.email],
             firebaseUID = row[Restaurants.firebaseUID]
         )
-    override suspend fun addRestaurant(resturant: Restaurant) = dbQuery {
+    override suspend fun addRestaurant(restaurant: Restaurant) = dbQuery {
         Restaurants.insert {
-            it[name] = resturant.name
-            it[email] = resturant.email
-            it[firebaseUID] = resturant.firebaseUID
+            it[name] = restaurant.name
+            it[email] = restaurant.email
+            it[firebaseUID] = restaurant.firebaseUID
         }
         Unit
     }
