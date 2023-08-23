@@ -1,6 +1,7 @@
 package com.example.model
 
 import kotlinx.serialization.Serializable
+import org.jetbrains.exposed.sql.ReferenceOption
 
 import org.jetbrains.exposed.sql.Table
 @Serializable
@@ -17,6 +18,7 @@ object Categories : Table() {
     val name = varchar("name",1024)
     val imageUrl = varchar("imageUrl",2048)
     val objectName = varchar("objectName",256)
+    val restaurantId = reference("restaurant_id",Restaurants.id,onDelete = ReferenceOption.CASCADE)
 
-    override val primaryKey = PrimaryKey(id, name = "PK_Categories_ID") // This sets the primary key
+    override val primaryKey = PrimaryKey(id, name = "PK_Categories_ID")
 }

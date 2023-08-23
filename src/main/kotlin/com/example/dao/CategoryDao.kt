@@ -1,6 +1,7 @@
 package com.example.dao
 
 import com.example.model.Category
+import com.example.model.Restaurant
 import com.example.model.SubCategory
 
 interface CategoryDao {
@@ -25,6 +26,10 @@ interface CategoryDao {
 
     suspend fun getSubCategoriesForCategory(categoryId: Int): List<SubCategory>?
     suspend fun getSubCategory(id: Int): SubCategory?
+
+    // Onboarding to setup resturant name and user UID when its first time launched
+
+    suspend fun addRestaurant(restaurant: Restaurant)
 
 
 

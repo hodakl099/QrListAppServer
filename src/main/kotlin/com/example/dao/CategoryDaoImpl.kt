@@ -1,13 +1,9 @@
 package com.example.dao
 
-import com.example.model.Categories
-import com.example.model.Category
-import com.example.model.SubCategories
-import com.example.model.SubCategory
+import com.example.model.*
 import com.example.util.DatabaseFactory.dbQuery
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
-import org.jetbrains.exposed.sql.transactions.transaction
 
 class CategoryDaoImpl : CategoryDao {
 
@@ -104,5 +100,22 @@ class CategoryDaoImpl : CategoryDao {
         SubCategories.select { SubCategories.id eq id }
             .mapNotNull { toSubCategory(it) }
             .singleOrNull()
+    }
+
+
+    private fun toResturant(row: ResultRow): Restaurant =
+        Restaurant(
+            id = row[Restaurants.id],
+            name = row[Restaurants.name],
+            email = row[Restaurants.email],
+            firebaseUID = row[Restaurants.firebaseUID]
+        )
+    override suspend fun addResturant(resturant: Restaurant) = dbQuery {
+        Restaurants.insert {
+            it[name] = resturant.name
+            it[email] = resturant.email
+            it[firebaseUID] = resturant.firebaseUID
+        }
+        Unit
     }
 }
