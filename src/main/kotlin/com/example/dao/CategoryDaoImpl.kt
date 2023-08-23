@@ -15,8 +15,9 @@ class CategoryDaoImpl : CategoryDao {
             name = row[Categories.name],
             imageUrl = row[Categories.imageUrl],
             objectName = row[Categories.objectName],
-            subCategories = listOf() // Empty list here, can be populated separately
-        )
+            subCategories = listOf(), // Empty list here, can be populated separately
+            firebaseUID = row[Categories.firebaseUID]
+            )
 
 
     private fun toSubCategory(row: ResultRow): SubCategory =
@@ -32,6 +33,7 @@ class CategoryDaoImpl : CategoryDao {
             it[name] = category.name
             it[imageUrl] = category.imageUrl
             it[objectName] = category.objectName
+            it[firebaseUID] =  category.firebaseUID
         }
         Unit
     }
@@ -105,10 +107,9 @@ class CategoryDaoImpl : CategoryDao {
 
     private fun toRestaurant(row: ResultRow): Restaurant =
         Restaurant(
-            id = row[Restaurants.id],
+            firebaseUID = row[Restaurants.firebaseUID],
             name = row[Restaurants.name],
             email = row[Restaurants.email],
-            firebaseUID = row[Restaurants.firebaseUID]
         )
     override suspend fun addRestaurant(restaurant: Restaurant) = dbQuery {
         Restaurants.insert {

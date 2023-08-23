@@ -13,7 +13,7 @@ import io.ktor.server.routing.*
 
 fun Route.createNewRestaurant() {
 
-    post("/restaurant/add") {
+    post("/add") {
         val multiPart = call.receiveMultipart()
         var name : String? = null
         var email : String? = null
@@ -34,7 +34,6 @@ fun Route.createNewRestaurant() {
         }
 
         val restaurant = Restaurant(
-            id = 0,
             name = name ?: "",
             email = email ?: "",
             firebaseUID = firebaseUID ?: ""

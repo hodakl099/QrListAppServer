@@ -4,8 +4,6 @@ import com.example.dao.dao
 import com.example.model.Category
 import com.example.util.BasicApiResponse
 import com.google.auth.oauth2.GoogleCredentials
-import com.google.cloud.secretmanager.v1.SecretManagerServiceClient
-import com.google.cloud.secretmanager.v1.SecretVersionName
 import com.google.cloud.storage.BlobId
 import com.google.cloud.storage.BlobInfo
 import com.google.cloud.storage.StorageOptions
@@ -71,7 +69,8 @@ fun Route.updateCategoryRoute() {
             name = name ?: "",
             imageUrl = imageUrl ?: "",
             objectName = objectName ?: "",
-            subCategories = emptyList() // Modify this as per your requirements
+            subCategories = emptyList(), // Modify this as per your requirements,
+            firebaseUID = ""
         )
 
         // Update the category in the database.

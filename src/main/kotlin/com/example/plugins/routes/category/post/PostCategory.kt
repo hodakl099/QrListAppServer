@@ -20,11 +20,17 @@ import java.io.FileInputStream
 
 
 fun Route.postCategoryRoute() {
-    post("/AddCategory") {
+    post("/AddCategory/{id}") {
         val multipart = call.receiveMultipart()
         var name: String? = null
         var objectName: String? = null
         var imageUrl: String? = null
+
+        val id = call.parameters["id"]
+        if (id == null) {
+            call.respond(HttpStatusCode.BadRequest, BasicApiResponse(false,"ID is missing or invalid"))
+            return@post
+        }
 
         multipart.forEachPart { part ->
             when (part) {
@@ -67,7 +73,8 @@ fun Route.postCategoryRoute() {
             name = name ?: throw IllegalArgumentException("Name is missing."),
             imageUrl = imageUrl ?: "",
             objectName = objectName ?: "",
-            subCategories = emptyList()
+            subCategories = emptyList(),
+            firebaseUID = id
         )
 
         dao.addCategory(category)

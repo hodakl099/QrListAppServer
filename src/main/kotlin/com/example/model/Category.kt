@@ -10,7 +10,8 @@ data class Category(
     val name : String,
     val imageUrl : String,
     val objectName : String,
-    val subCategories : List<SubCategory>
+    val subCategories : List<SubCategory>,
+    val firebaseUID : String
 )
 
 object Categories : Table() {
@@ -18,7 +19,7 @@ object Categories : Table() {
     val name = varchar("name",1024)
     val imageUrl = varchar("imageUrl",2048)
     val objectName = varchar("objectName",256)
-    val restaurantId = reference("restaurant_id",Restaurants.id,onDelete = ReferenceOption.CASCADE)
+    val firebaseUID = reference("restaurant_id",Restaurants.firebaseUID,onDelete = ReferenceOption.CASCADE)
 
     override val primaryKey = PrimaryKey(id, name = "PK_Categories_ID")
 }
