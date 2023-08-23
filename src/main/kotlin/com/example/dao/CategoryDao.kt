@@ -31,6 +31,8 @@ interface CategoryDao {
 
     suspend fun addRestaurant(restaurant: Restaurant)
 
+    suspend fun getRestaurantCategories(restaurantId: Int):List<Category>
+
 
 
 }

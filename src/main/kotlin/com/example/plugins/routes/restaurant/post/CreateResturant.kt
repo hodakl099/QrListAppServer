@@ -15,28 +15,32 @@ fun Route.createNewRestaurant() {
 
     post("/add") {
         val multiPart = call.receiveMultipart()
+        var id : Int? = null
         var name : String? = null
         var email : String? = null
-        var firebaseUID : String? = null
 
         multiPart.forEachPart {part ->
             when(part) {
                 is PartData.FormItem ->  {
                     when(part.name) {
+                        "id" -> id = part.value.toIntOrNull()
                         "name" -> name = part.value
                         "email" -> email = part.value
-                        "firebaseUID" -> firebaseUID = part.value
                     }
                 }
                 else -> return@forEachPart
             }
             part.dispose
         }
+        if (id == null) {
+            call.respond(HttpStatusCode.BadRequest,BasicApiResponse(false,"Invalid or missing ID.."))
+            return@post
+        }
 
         val restaurant = Restaurant(
+            id = id  ?: return@post,
             name = name ?: "",
             email = email ?: "",
-            firebaseUID = firebaseUID ?: ""
         )
 
         dao.addRestaurant(restaurant)

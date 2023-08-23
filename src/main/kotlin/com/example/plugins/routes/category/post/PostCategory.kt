@@ -26,7 +26,7 @@ fun Route.postCategoryRoute() {
         var objectName: String? = null
         var imageUrl: String? = null
 
-        val id = call.parameters["id"]
+        val id = call.parameters["id"]?.toIntOrNull()
         if (id == null) {
             call.respond(HttpStatusCode.BadRequest, BasicApiResponse(false,"ID is missing or invalid"))
             return@post
@@ -74,7 +74,7 @@ fun Route.postCategoryRoute() {
             imageUrl = imageUrl ?: "",
             objectName = objectName ?: "",
             subCategories = emptyList(),
-            firebaseUID = id
+            restaurantId = id
         )
 
         dao.addCategory(category)

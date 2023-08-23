@@ -1,6 +1,7 @@
 package com.example.util
 
 import com.example.model.Categories
+import com.example.model.Restaurants
 import com.example.model.SubCategories
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
@@ -14,11 +15,12 @@ object DatabaseFactory  {
         val database =  Database.connect(
             url = "jdbc:postgresql://localhost:5432/postgres",
             driver = "org.postgresql.Driver",
-            user = "mahmoud",
+            user = "postgres",
             password = "Thanaatekba2000$$"
         )
         transaction(database) {
             SchemaUtils.create(
+                Restaurants,
                 Categories,
                 SubCategories
             )

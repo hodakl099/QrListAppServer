@@ -70,7 +70,7 @@ fun Route.updateCategoryRoute() {
             imageUrl = imageUrl ?: "",
             objectName = objectName ?: "",
             subCategories = emptyList(), // Modify this as per your requirements,
-            firebaseUID = ""
+            restaurantId = 0
         )
 
         // Update the category in the database.
