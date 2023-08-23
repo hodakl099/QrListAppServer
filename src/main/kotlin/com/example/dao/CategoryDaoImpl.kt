@@ -110,7 +110,7 @@ class CategoryDaoImpl : CategoryDao {
             email = row[Restaurants.email],
             firebaseUID = row[Restaurants.firebaseUID]
         )
-    override suspend fun addResturant(resturant: Restaurant) = dbQuery {
+    override suspend fun addRestaurant(resturant: Restaurant) = dbQuery {
         Restaurants.insert {
             it[name] = resturant.name
             it[email] = resturant.email
