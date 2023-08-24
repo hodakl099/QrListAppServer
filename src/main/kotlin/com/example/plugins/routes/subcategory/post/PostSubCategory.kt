@@ -21,6 +21,7 @@ fun Route.postSubCategoryRoute() {
         var name: String? = null
         var imageUrl: String? = null
         var objectName: String? = null
+        var fileName : String? = null
 
         print("The id of the category" + categoryId)
 
@@ -40,13 +41,16 @@ fun Route.postSubCategoryRoute() {
                 is PartData.FileItem -> {
                     if (part.name == "image") {
                         val fileBytes = part.streamProvider().readBytes()
+                        fileName = fileBytes.size.toString()
                         if (fileBytes.isEmpty()) {
                             call.respond(HttpStatusCode.BadRequest, "Image is required.")
                             return@forEachPart
                         }
                         try {
                             imageUrl = uploadFile(part)
+                            print(imageUrl?.length)
                         } catch (e: Exception) {
+                            print("message : " + e.printStackTrace())
                             call.respond(HttpStatusCode.InternalServerError, "Something went wrong while uploading the file.")
                             return@forEachPart
                         }
@@ -77,7 +81,7 @@ fun Route.postSubCategoryRoute() {
         )
 
         dao.addSubCategoryToCategory(categoryId, subCategory)
-        call.respond(HttpStatusCode.Created, BasicApiResponse(false,"SubCategory added successfully."))
+        call.respond(HttpStatusCode.Created, BasicApiResponse(true,"SubCategory added successfully."))
     }
 }
 
