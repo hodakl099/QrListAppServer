@@ -110,6 +110,9 @@ class CategoryDaoImpl : CategoryDao {
     }
 
 
+    /**
+     * //TODO if needed to use restaurant in future.
+     */
     private fun toRestaurant(row: ResultRow): Restaurant =
         Restaurant(
             id = row[Restaurants.id],
