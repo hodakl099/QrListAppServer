@@ -38,22 +38,24 @@ fun Route.postCategoryRoute() {
                     when (part.name) {
                         "name" -> name = part.value
                         "objectName" -> objectName = part.value
-
                     }
                     print(name)
                 }
                 is PartData.FileItem -> {
                     if (part.name == "image") {
                         val fileBytes = part.streamProvider().readBytes()
+                        println("File size: ${fileBytes.size} bytes")
                         if (fileBytes.isEmpty()) {
                             call.respond(HttpStatusCode.BadRequest, BasicApiResponse(false,"Image is required."))
                             return@forEachPart
                         }
                         try {
                             imageUrl = uploadFile(part)
+
                         } catch (e: Exception) {
-                            print("Logeffesfksmd dsfijsdf " + e.message)
-                            call.respond(HttpStatusCode.InternalServerError, BasicApiResponse(true,"Category is Added Successfully"))
+                            println("Error uploading file: ${e.message}")
+                            e.printStackTrace()  //
+                            call.respond(HttpStatusCode.InternalServerError, BasicApiResponse(true,"Something went wrong!"))
                             return@forEachPart
                         }
                     }
