@@ -33,7 +33,7 @@ fun Route.updateSubCategoryRoute() {
         var objectName: String? = null
         var categoryId: Int? = null
         var imageUpdated = false
-
+        var price : Int? = null
         multiPart.forEachPart { part ->
             when (part) {
                 is PartData.FormItem -> {
@@ -41,6 +41,7 @@ fun Route.updateSubCategoryRoute() {
                         "name" -> name = part.value
                         "objectName" -> objectName = part.value
                         "categoryId" -> categoryId = part.value.toIntOrNull()
+                        "price"  ->  price =  part.value.toIntOrNull()
                     }
                 }
 
@@ -77,7 +78,8 @@ fun Route.updateSubCategoryRoute() {
             name = name ?: "",
             imageUrl = imageUrl ?: "",
             objectName = objectName ?: "",
-            categoryId = categoryId ?: throw IllegalArgumentException("Category ID is missing or invalid.")
+            categoryId = categoryId ?: throw IllegalArgumentException("Category ID is missing or invalid."),
+            price = price ?: 0
         )
 
         // Update the sub-category in the database.

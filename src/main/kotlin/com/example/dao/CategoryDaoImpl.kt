@@ -26,7 +26,8 @@ class CategoryDaoImpl : CategoryDao {
             name = row[SubCategories.name],
             imageUrl = row[SubCategories.imageUrl],
             objectName = row[SubCategories.objectName],
-            categoryId = row[SubCategories.categoryId]
+            categoryId = row[SubCategories.categoryId],
+            price = row[SubCategories.price]
         )
     override suspend fun addCategory(category: Category) = dbQuery {
         Categories.insert {
@@ -72,6 +73,7 @@ class CategoryDaoImpl : CategoryDao {
             it[imageUrl] = subCategory.imageUrl
             it[objectName] = subCategory.objectName
             it[categoryId] = catId
+            it[price] = subCategory.price
         }
         true
     }
@@ -80,6 +82,7 @@ class CategoryDaoImpl : CategoryDao {
             it[name] = subCategory.name
             it[imageUrl] = subCategory.imageUrl
             it[objectName] = subCategory.objectName
+            it[price] = subCategory.price
         }
         updated > 0
     }

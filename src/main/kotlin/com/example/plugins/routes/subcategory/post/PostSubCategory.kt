@@ -1,7 +1,6 @@
 package com.example.plugins.routes.subcategory.post
 
 import com.example.dao.dao
-import com.example.model.Category
 import com.example.model.SubCategory
 import com.example.plugins.routes.category.put.uploadFile
 import com.example.util.BasicApiResponse
@@ -12,7 +11,6 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-
 fun Route.postSubCategoryRoute() {
     post("/AddSubCategory/{categoryId}") {
 
@@ -22,20 +20,25 @@ fun Route.postSubCategoryRoute() {
         var imageUrl: String? = null
         var objectName: String? = null
         var fileName : String? = null
-
-        print("The id of the category" + categoryId)
+        var price : Int? = null
 
         if (categoryId == null) {
             call.respond(HttpStatusCode.BadRequest, BasicApiResponse(false,"Category might be deleted or invalid!"))
         }
 
-
         multipart.forEachPart { part ->
             when (part) {
                 is PartData.FormItem -> {
                     when (part.name) {
-                        "name" -> name = part.value
+                        "name" ->{
+                            println("Received name: ${part.value}")  // Add this line
+                            name = part.value
+                        }
                         "objectName" -> objectName = part.value
+                        "price" -> {
+                            println("Received price: ${part.value}")  // Add this line
+                            price = part.value.toIntOrNull()
+                        }
                     }
                 }
                 is PartData.FileItem -> {
@@ -77,7 +80,8 @@ fun Route.postSubCategoryRoute() {
             name = name ?: throw IllegalArgumentException("Name is missing."),
             imageUrl = imageUrl ?: "",
             objectName = objectName ?: "",
-            categoryId = categoryId ?: 0
+            categoryId = categoryId ?: 0,
+            price = price ?: 0
         )
 
         dao.addSubCategoryToCategory(categoryId, subCategory)
