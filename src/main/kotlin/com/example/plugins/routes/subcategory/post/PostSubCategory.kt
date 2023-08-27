@@ -34,7 +34,9 @@ fun Route.postSubCategoryRoute() {
                         "name" ->{
                             name = part.value
                         }
-                        "objectName" -> objectName = part.value
+                        "objectName" -> {
+                            objectName = part.value
+                        }
                         "price" -> {
                             price = part.value.toIntOrNull()
                         }
@@ -78,12 +80,12 @@ fun Route.postSubCategoryRoute() {
             name = name ?: throw IllegalArgumentException("Name is missing."),
             imageUrl = imageUrl ?: "",
             objectName = objectName ?: "",
-            categoryId = categoryId ?: 0,
+            categoryId = categoryId,
             price = price ?: 0
         )
 
         dao.addSubCategoryToCategory(categoryId, subCategory)
-        call.respond(HttpStatusCode.Created, BasicApiResponse(true,"SubCategory added successfully."))
+        call.respond(HttpStatusCode.Created, BasicApiResponse(true,"SubCategory added successfully $objectName."))
     }
 }
 
