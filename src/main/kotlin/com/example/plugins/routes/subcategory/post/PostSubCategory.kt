@@ -22,6 +22,7 @@ fun Route.postSubCategoryRoute() {
         var fileName : String? = null
         var price : Int? = null
 
+
         if (categoryId == null) {
             call.respond(HttpStatusCode.BadRequest, BasicApiResponse(false,"Category might be deleted or invalid!"))
         }
@@ -31,12 +32,10 @@ fun Route.postSubCategoryRoute() {
                 is PartData.FormItem -> {
                     when (part.name) {
                         "name" ->{
-                            println("Received name: ${part.value}")  // Add this line
                             name = part.value
                         }
                         "objectName" -> objectName = part.value
                         "price" -> {
-                            println("Received price: ${part.value}")  // Add this line
                             price = part.value.toIntOrNull()
                         }
                     }
@@ -50,10 +49,9 @@ fun Route.postSubCategoryRoute() {
                             return@forEachPart
                         }
                         try {
-                            imageUrl = uploadFile(part)
-                            print(imageUrl?.length)
+                            imageUrl = uploadFile(part.originalFileName ?: "default.jpg", fileBytes)
+
                         } catch (e: Exception) {
-                            print("message : " + e.printStackTrace())
                             call.respond(HttpStatusCode.InternalServerError, "Something went wrong while uploading the file.")
                             return@forEachPart
                         }

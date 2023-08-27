@@ -12,6 +12,7 @@ fun Route.getSubCategoriesForCategoryRoute() {
         val id = call.parameters["id"]?.toIntOrNull()
         if (id != null) {
             val category = dao.getSubCategoriesForCategory(id)
+            println("Fetched categories: $category")  //
             call.respond(HttpStatusCode.OK,category)
         }
         else {

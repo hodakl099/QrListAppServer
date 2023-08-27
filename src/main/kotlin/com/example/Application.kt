@@ -24,7 +24,7 @@ fun Application.module() {
         json()
     }
     GlobalScope.launch {
-        print(dao.getAllCategories())
+        print(dao.getSubCategoriesForCategory(8))
     }
 
     install(CORS) {

@@ -14,6 +14,7 @@ fun Route.deleteCategoryRoute() {
        if (id != null) {
            val isDeleted = dao.deleteCategory(id)
            if (isDeleted) {
+               dao.deleteSubCategoriesForCategory(id)
                call.respond(HttpStatusCode.OK, BasicApiResponse(true,"Category is deleted successfully!"))
            } else {
                call.respond(HttpStatusCode.BadRequest,BasicApiResponse(false,"Something went wrong!"))

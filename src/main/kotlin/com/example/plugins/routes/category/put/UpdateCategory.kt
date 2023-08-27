@@ -45,10 +45,15 @@ fun Route.updateCategoryRoute() {
                 }
                 is PartData.FileItem -> {
                     if (part.name == "image") {
-                        val fileUrl = uploadFile(part)
-                        imageUrl = fileUrl
-                        objectName = part.originalFileName
-                        imageUpdated = true
+                        val fileBytes = part.streamProvider().readBytes()
+                        try {
+                            imageUrl = uploadFile(part.originalFileName ?: "default.jpg", fileBytes)
+                            objectName = part.originalFileName
+                            imageUpdated = true
+                        } catch (e: Exception) {
+                            call.respond(HttpStatusCode.InternalServerError, "Failed to upload the image.")
+                            return@forEachPart
+                        }
                     }
                 }
                 else -> return@forEachPart
@@ -85,19 +90,21 @@ fun Route.updateCategoryRoute() {
 }
 
 
-suspend fun uploadFile(part: PartData.FileItem): String? {
-    val fileBytes = part.streamProvider().readBytes()
-
+suspend fun uploadFile(fileName: String, fileBytes: ByteArray): String? {
     val creds = withContext(Dispatchers.IO) {
         GoogleCredentials.fromStream(FileInputStream("src/main/resources/verdant-option-390012-c9c70b72ef8f.json"))
     }
     val storage = StorageOptions.newBuilder().setCredentials(creds).build().service
 
     val bucketName = "qrlist"
-    val blobId = part.originalFileName?.let { BlobId.of(bucketName, it) }
-    val blobInfo = blobId?.let { BlobInfo.newBuilder(it).build() }
+    val blobId = BlobId.of(bucketName, fileName)
+    val blobInfo = BlobInfo.newBuilder(blobId).setContentType("image/jpeg").build() // Adjust content type accordingly
 
-    blobInfo?.let { storage.create(it, fileBytes) }
+    val blob = storage.create(blobInfo, fileBytes)
 
-    return blobId?.let { storage.get(it)?.mediaLink }
+    if (blob == null || blob.size != fileBytes.size.toLong()) {
+        throw Exception("Failed to upload blob correctly to Google Cloud Storage.")
+    }
+
+    return blob.mediaLink
 }

@@ -33,7 +33,8 @@ fun Route.updateSubCategoryRoute() {
         var objectName: String? = null
         var categoryId: Int? = null
         var imageUpdated = false
-        var price : Int? = null
+        var price: Int? = null
+
         multiPart.forEachPart { part ->
             when (part) {
                 is PartData.FormItem -> {
@@ -41,22 +42,26 @@ fun Route.updateSubCategoryRoute() {
                         "name" -> name = part.value
                         "objectName" -> objectName = part.value
                         "categoryId" -> categoryId = part.value.toIntOrNull()
-                        "price"  ->  price =  part.value.toIntOrNull()
+                        "price" -> price = part.value.toIntOrNull()
                     }
                 }
 
                 is PartData.FileItem -> {
                     if (part.name == "image") {
-                        val fileUrl = uploadFile(part)
-                        imageUrl = fileUrl
-                        objectName = part.originalFileName
-                        imageUpdated = true
+                        val fileBytes = part.streamProvider().readBytes()
+                        try {
+                            imageUrl = uploadFile(part.originalFileName ?: "default.jpg", fileBytes)
+                            objectName = part.originalFileName
+                            imageUpdated = true
+                        } catch (e: Exception) {
+                            call.respond(HttpStatusCode.InternalServerError, "Failed to upload the image.")
+                            return@forEachPart
+                        }
                     }
                 }
 
-                else -> return@forEachPart
+                else -> part.dispose()
             }
-            part.dispose()
         }
 
         // If no new image was uploaded, fetch old imageUrl and objectName from the database

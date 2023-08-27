@@ -50,7 +50,8 @@ fun Route.postCategoryRoute() {
                             return@forEachPart
                         }
                         try {
-                            imageUrl = uploadFile(part)
+                            imageUrl = uploadFile(part.originalFileName ?: "default.jpg", fileBytes)
+
 
                         } catch (e: Exception) {
                             println("Error uploading file: ${e.message}")
